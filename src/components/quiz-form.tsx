@@ -19,8 +19,11 @@ export function QuizForm({ quizId, questions }: { quizId: string; questions: Qui
     }
     startTransition(async () => {
       const response = await saveQuizAttempt(quizId, answers);
-      if ("error" in response) setError(response.error);
-      else setResult(response);
+      if (!response.ok) {
+        setError(response.error);
+      } else {
+        setResult({ score: response.score, total: response.total });
+      }
     });
   }
 
