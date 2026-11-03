@@ -20,7 +20,7 @@ export default async function DashboardPage() {
   return (
     <section className="container-page py-10">
       <div className="flex flex-wrap items-start justify-between gap-4">
-        <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-forest">Dashboard belajar</p><h1 className="mt-2 text-3xl font-black text-ink">Assalamu'alaikum, {profile?.full_name || "Siswa"}.</h1><p className="mt-2 text-sm text-[#68766e]">Pantau materi dan hasil latihanmu di sini.</p></div>
+        <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-forest">Dashboard belajar</p><h1 className="mt-2 text-3xl font-black text-ink">Assalamu&apos;alaikum, {profile?.full_name || "Siswa"}.</h1><p className="mt-2 text-sm text-[#68766e]">Pantau materi dan hasil latihanmu di sini.</p></div>
         {profile?.role === "admin" && <Link href="/admin" className="btn-primary"><ShieldCheck size={16} /> Panel admin</Link>}
       </div>
 

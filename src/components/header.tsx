@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, GraduationCap, LayoutDashboard, LogIn, LogOut, Menu } from "lucide-react";
+import { BookOpen, GraduationCap, LayoutDashboard, LogIn, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import type { User } from "@supabase/supabase-js";
 import { logout } from "@/app/auth/actions";

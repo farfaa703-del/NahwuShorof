@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import type { QuizQuestion } from "@/lib/types";
 
 async function requireAdmin() {
   const supabase = await createClient();
@@ -13,34 +14,52 @@ async function requireAdmin() {
   return supabase;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isQuizQuestion(value: unknown): value is QuizQuestion {
+  if (!isRecord(value)) return false;
+  const options = value.options;
+  const answer = value.answer;
+
+  return (
+    typeof value.question === "string" &&
+    value.question.trim().length > 0 &&
+    Array.isArray(options) &&
+    options.length === 4 &&
+    options.every((option: unknown) => typeof option === "string" && option.trim().length > 0) &&
+    typeof answer === "number" &&
+    Number.isInteger(answer) &&
+    answer >= 0 &&
+    answer <= 3 &&
+    (value.explanation === undefined || typeof value.explanation === "string")
+  );
+}
+
 function parseQuiz(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
   const lessonId = String(formData.get("lesson_id") ?? "").trim();
   const published = formData.get("published") === "on";
-  let questions: unknown;
+  let parsedQuestions: unknown;
 
   try {
-    questions = JSON.parse(String(formData.get("questions") ?? "[]"));
+    parsedQuestions = JSON.parse(String(formData.get("questions") ?? "[]"));
   } catch {
     throw new Error("Format pertanyaan tidak valid.");
   }
 
   if (!title || !lessonId) throw new Error("Judul kuis dan materi wajib dipilih.");
-  if (!Array.isArray(questions) || questions.length < 1) throw new Error("Tambahkan minimal satu pertanyaan.");
+  if (!Array.isArray(parsedQuestions) || parsedQuestions.length < 1) {
+    throw new Error("Tambahkan minimal satu pertanyaan.");
+  }
 
-  const valid = questions.every((item: any) =>
-    typeof item.question === "string" &&
-    item.question.trim().length > 0 &&
-    Array.isArray(item.options) &&
-    item.options.length === 4 &&
-    item.options.every((option: unknown) => typeof option === "string" && option.trim().length > 0) &&
-    Number.isInteger(item.answer) &&
-    item.answer >= 0 &&
-    item.answer <= 3
-  );
+  const questions: unknown[] = parsedQuestions;
+  if (!questions.every(isQuizQuestion)) {
+    throw new Error("Setiap soal harus memiliki pertanyaan, empat opsi, dan satu jawaban benar.");
+  }
 
-  if (!valid) throw new Error("Setiap soal harus memiliki pertanyaan, empat opsi, dan satu jawaban benar.");
-  return { title, lesson_id: lessonId, published, questions };
+  return { title, lesson_id: lessonId, published, questions: questions as QuizQuestion[] };
 }
 
 export async function createQuiz(formData: FormData) {

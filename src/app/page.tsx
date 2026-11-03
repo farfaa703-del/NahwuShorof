@@ -48,7 +48,7 @@ export default async function HomePage() {
           <Link href="/nahwu" className="surface group p-6 transition hover:-translate-y-1">
             <span className="text-xs font-extrabold tracking-widest text-forest">01 / NAHWU</span>
             <h3 className="mt-3 text-2xl font-black text-ink">Memahami susunan kalimat</h3>
-            <p className="mt-2 max-w-md text-sm leading-7 text-[#68766e]">Kenali jenis kata, i'rab, kedudukan kata, dan pola kalimat Bahasa Arab.</p>
+            <p className="mt-2 max-w-md text-sm leading-7 text-[#68766e]">Kenali jenis kata, i&apos;rab, kedudukan kata, dan pola kalimat Bahasa Arab.</p>
             <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-forest">Jelajahi Nahwu <ArrowRight size={16} /></span>
           </Link>
           <Link href="/sharaf" className="surface group p-6 transition hover:-translate-y-1">
