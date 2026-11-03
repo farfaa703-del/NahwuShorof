@@ -1,0 +1,22 @@
+{
+  "project": "Nahwu Sharaf Academy",
+  "type": "Full-stack MVP",
+  "files": 39,
+  "stack": [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Supabase",
+    "PostgreSQL"
+  ],
+  "features": [
+    "public lessons",
+    "auth",
+    "student dashboard",
+    "quiz scoring",
+    "admin lesson CRUD",
+    "tashrif table",
+    "admin quiz CRUD"
+  ]
+}
